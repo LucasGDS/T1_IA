@@ -94,17 +94,17 @@ function love.load()
 	end
 	
 	--Importa as imagens
-	floresta = love.graphics.newImage("floresta.png")
-	galhos = love.graphics.newImage("galhos.png")
-	plano = love.graphics.newImage("plano.png")
-	cabana = love.graphics.newImage("cabana.png")
-	clareira = love.graphics.newImage("clareira.png")
-	inicio = love.graphics.newImage("inicio.png")
-	chapeuzinho = love.graphics.newImage("chapeuzinho.png")
-	floresta_ponto = love.graphics.newImage("floresta_ponto.png")
-	galhos_ponto = love.graphics.newImage("galhos_ponto.png")
-	plano_ponto = love.graphics.newImage("plano_ponto.png")
-	clareira_ponto = love.graphics.newImage("clareira_ponto.png")
+	floresta = love.graphics.newImage("resources/floresta.png")
+	galhos = love.graphics.newImage("resources/galhos.png")
+	plano = love.graphics.newImage("resources/plano.png")
+	cabana = love.graphics.newImage("resources/cabana.png")
+	clareira = love.graphics.newImage("resources/clareira.png")
+	inicio = love.graphics.newImage("resources/inicio.png")
+	chapeuzinho = love.graphics.newImage("resources/chapeuzinho.png")
+	floresta_ponto = love.graphics.newImage("resources/floresta_ponto.png")
+	galhos_ponto = love.graphics.newImage("resources/galhos_ponto.png")
+	plano_ponto = love.graphics.newImage("resources/plano_ponto.png")
+	clareira_ponto = love.graphics.newImage("resources/clareira_ponto.png")
 	
 	-- Inicializacao do A*
 
