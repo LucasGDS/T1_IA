@@ -1,5 +1,5 @@
 --Funcao combinatoria dos doces por clareira
-require COMB = ("combinatoria")
+doces = require ("combinatoria")
 
 --Mapa de caracteres lido do arquivo
 local mapa = {}
@@ -28,6 +28,8 @@ local nos_pai = {}
 local nos_visitado = {}
 local corrente
 local busca_concluida = false
+
+local clareira_corrente = 0
 
 --Função que retorna true caso a casajá exista nas tabelas e false caso contrário
 function casa_nunca_vista (x, y)
@@ -58,13 +60,16 @@ function menor_custo()
 	end
 	return index_minimo
 end
-	
+
 --Função que calcula o custo guloso g(x)
 function g(x,y, pai)
 	if mapa[x][y] == "D" then
 		return (200 + nos_g[pai])
 	elseif mapa[x][y] == "G" then
 		return (5 + nos_g[pai])
+	elseif mapa[x][y] == "C" then
+		clareira_corrente = clareira_corrente + 1
+		return (doces.clareiracusto[clareira_corrente] + nos_g[pai])
 	else
 		return (1 + nos_g[pai])
 	end
@@ -77,10 +82,13 @@ end
 
 --Função de inicialização
 function love.load()
-	
+
 	--Ajusta a tela
 	love.window.setMode( sprites_size*size + 200, sprites_size*size)
-	
+
+	doces.combinardocesinicial()
+
+
 	--Passa o conteúdo do arquivo para a tabela mapa
 	file = love.filesystem.read("mapa.txt", 10000)
 	index = 1
@@ -100,7 +108,7 @@ function love.load()
 		end
 		index = index+2
 	end
-	
+
 	--Importa as imagens
 	floresta = love.graphics.newImage("resources/floresta.png")
 	galhos = love.graphics.newImage("resources/galhos.png")
@@ -113,7 +121,7 @@ function love.load()
 	galhos_ponto = love.graphics.newImage("resources/galhos_ponto.png")
 	plano_ponto = love.graphics.newImage("resources/plano_ponto.png")
 	clareira_ponto = love.graphics.newImage("resources/clareira_ponto.png")
-	
+
 	-- Inicializacao do A*
 
 	corrente = 1
@@ -123,7 +131,7 @@ function love.load()
 	nos_h[1] = h(chapeuzinhox, chapeuzinhoy)
 	nos_visitado[1] = true
 	nos_pai[1] = 0
-	
+
 end
 
 --Funcao chamada a cada período de tempo
@@ -131,12 +139,12 @@ function love.update(dt)
 	tempo = tempo + dt
 	if (tempo > 1/velocidade) and (busca_concluida~=true) then
 		tempo = 0
-		
+
 		-- Busca A*
-		
+
 		--Testa se a busca chegou ao fim
 		if nos_x[corrente] ~= vovox or nos_y[corrente] ~= vovoy then
-		
+
 			--Bota os nós vizinhos não visitados na lista de nós, calculando seus custos
 			--Casa de cima
 			if casa_nunca_vista ( nos_x[corrente],  nos_y[corrente]+1) then
@@ -174,16 +182,16 @@ function love.update(dt)
 				table.insert( nos_g, g(nos_x[corrente]-1,  nos_y[corrente], corrente))
 				table.insert( nos_h, h(nos_x[corrente]-1,  nos_y[corrente]))
 			end
-			
+
 			--Procura o nó aberto com menor custo e altera o corrente
 			nos_visitado[corrente] = true
 			corrente = menor_custo()
-			
+
 			chapeuzinhox = nos_x[corrente]
 			chapeuzinhoy = nos_y[corrente]
-			
+
 		else
-		
+
 			--Faz o "desenho" do caminho encontrado na busca, começando do final e indo de pai em pai
 			i = corrente
 			while i ~= 1 do
@@ -211,7 +219,27 @@ function love.draw()
 	love.graphics.print("g(x) = " .. nos_g[corrente], sprites_size*size + 10, 25)
 	love.graphics.print("h(x) = " .. nos_h[corrente], sprites_size*size + 10, 40)
 	love.graphics.print("g(x) + h(x) = " .. nos_g[corrente]+nos_h[corrente], sprites_size*size + 10, 55)
-	love.graphics.print(custotot, sprites_size*size + 10, 70)
+
+
+	if busca_concluida then
+
+		love.graphics.print("Custo nas clareiras = " .. doces.custototal(), sprites_size*size + 10, 70)
+
+		--Escreve a distribuicao de doces
+		love.graphics.print("Distribuicao dos doces:", sprites_size*size + 10, 85)
+		for i,j in pairs(doces.distrdoces) do
+			if i == 11 then
+				love.graphics.print("Cesta ", sprites_size*size + 10, 100 + 30*(i-1))
+			else
+				love.graphics.print("Clareira " .. i, sprites_size*size + 10, 100 + 30*(i-1))
+			end
+			for k,l in ipairs(j) do
+				love.graphics.print(l, sprites_size*size + 10*k, 115 + 30*(i-1))
+			end
+
+		end
+
+	end
 
 	--Desenha o mapa
 	for i = 1,size do
