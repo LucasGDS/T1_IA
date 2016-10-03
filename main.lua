@@ -1,3 +1,6 @@
+--Funcao combinatoria dos doces por clareira
+require COMB = ("combinatoria")
+
 --Mapa de caracteres lido do arquivo
 local mapa = {}
 local size = 41
@@ -208,6 +211,7 @@ function love.draw()
 	love.graphics.print("g(x) = " .. nos_g[corrente], sprites_size*size + 10, 25)
 	love.graphics.print("h(x) = " .. nos_h[corrente], sprites_size*size + 10, 40)
 	love.graphics.print("g(x) + h(x) = " .. nos_g[corrente]+nos_h[corrente], sprites_size*size + 10, 55)
+	love.graphics.print(custotot, sprites_size*size + 10, 70)
 
 	--Desenha o mapa
 	for i = 1,size do
