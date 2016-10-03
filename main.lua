@@ -8,6 +8,9 @@ local chapeuzinhox, chapeuzinhoy, vovox, vovoy
 --Tempo que se passou desde o último período de update
 local tempo = 0
 
+--Velocidade em passos por segundo
+local velocidade = 100
+
 --Imagens
 local floresta, galhos, plano, cabana, inicio, clareira, chapuzinho, floresta_ponto, galhos_ponto, plano_ponto, clareira_ponto
 local sprites_size = 17
@@ -63,7 +66,6 @@ end
 
 --Função que calcula o custo heurístico h(x)
 function h(x,y)
-	love.filesystem.write("log.txt", x .. " " .. y, 5)
 	return math.abs(y - vovoy) + math.abs(x - vovox)
 end
 
@@ -121,7 +123,7 @@ end
 --Funcao chamada a cada período de tempo
 function love.update(dt)
 	tempo = tempo + dt
-	if (tempo > 0.1) and (busca_concluida~=true) then
+	if (tempo > 1/velocidade) and (busca_concluida~=true) then
 		tempo = 0
 		
 		-- Busca A*
