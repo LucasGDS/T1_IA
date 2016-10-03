@@ -33,6 +33,12 @@ clareiradif={
 }
 clareiracusto={150,140,130,120,110,100,95,90,85,80}
 
+function updtclareiracusto()
+	for i=1,10 do
+		clareiracusto[i] = calccusto(i)
+	end
+end
+
 function calccusto(clareira)
 	local soma=0
 	for i=1, 5 do
@@ -49,7 +55,7 @@ function custototal()
 	end
 end
 
-function combinardocesinicial()
+function combinardocesinicial() --acha uma distribuicao inicial
 	local doce, clareira
 	while distrdoces.cesta[1]+distrdoces.cesta[2]+distrdoces.cesta[3]+distrdoces.cesta[4]+distrdoces.cesta[5] > 1 do
 		for i=1, 5 do
@@ -71,7 +77,9 @@ function combinardocesinicial()
 	end
 end
 
-combinardocesinicial()
+--[[  ]]
+
+combinardocesinicial() 
 
 for i,j in pairs(distrdoces) do  --print da distribuicao inicial
 	print("clareira",i)
@@ -80,6 +88,7 @@ for i,j in pairs(distrdoces) do  --print da distribuicao inicial
 	end
 
 end
+
 
 custototal()
 print(custotot)
