@@ -2,10 +2,10 @@
 local mapa = {}
 local size = 41
 
---PosiÁ„o da chapeuzinho e da casa da vovÛ
+--Posi√ß√£o da chapeuzinho e da casa da vov√≥
 local chapeuzinhox, chapeuzinhoy, vovox, vovoy
 
---Tempo que se passou desde o ˙ltimo perÌodo de update
+--Tempo que se passou desde o √∫ltimo per√≠odo de update
 local tempo = 0
 
 --Velocidade em passos por segundo
@@ -15,8 +15,8 @@ local velocidade = 100
 local floresta, galhos, plano, cabana, inicio, clareira, chapuzinho, floresta_ponto, galhos_ponto, plano_ponto, clareira_ponto
 local sprites_size = 17
 
---Tabelas para a busca A*,  com posiÁ„o custo g e h, index do nÛ pai e um booleano que indica se o nÛ j· foi visitado
---Um nÛ È representado por um index, que vale para todas as tabelas
+--Tabelas para a busca A*,  com posi√ß√£o custo g e h, index do n√≥ pai e um booleano que indica se o n√≥ j√° foi visitado
+--Um n√≥ √© representado por um index, que vale para todas as tabelas
 local nos_x = {}
 local nos_y = {}
 local nos_g = {}
@@ -26,8 +26,11 @@ local nos_visitado = {}
 local corrente
 local busca_concluida = false
 
---FunÁ„o que retorna true caso a casaj· exista nas tabelas e false caso contr·rio
+--Fun√ß√£o que retorna true caso a casaj√° exista nas tabelas e false caso contr√°rio
 function casa_nunca_vista (x, y)
+	if x<1 or x>41 or y<1 or y>41 then
+		return false
+	end
     for index, value in ipairs (nos_x) do
         if value == x then
 		if nos_y[index] == y then
@@ -38,7 +41,7 @@ function casa_nunca_vista (x, y)
     return true
 end
 
---FunÁ„o que retorna o index do nÛ aberto de menor custo
+--Fun√ß√£o que retorna o index do n√≥ aberto de menor custo
 function menor_custo()
 	local index_minimo = 1
 	local custo_minimo = 99999
@@ -53,7 +56,7 @@ function menor_custo()
 	return index_minimo
 end
 	
---FunÁ„o que calcula o custo guloso g(x)
+--Fun√ß√£o que calcula o custo guloso g(x)
 function g(x,y, pai)
 	if mapa[x][y] == "D" then
 		return (200 + nos_g[pai])
@@ -64,18 +67,18 @@ function g(x,y, pai)
 	end
 end
 
---FunÁ„o que calcula o custo heurÌstico h(x)
+--Fun√ß√£o que calcula o custo heur√≠stico h(x)
 function h(x,y)
-	return math.abs(y - vovoy) + math.abs(x - vovox)
+	return math.sqrt((y - vovoy)*(y - vovoy) + (x - vovox)*(x - vovox))
 end
 
---FunÁ„o de inicializaÁ„o
+--Fun√ß√£o de inicializa√ß√£o
 function love.load()
 	
 	--Ajusta a tela
 	love.window.setMode( sprites_size*size + 200, sprites_size*size)
 	
-	--Passa o conte˙do do arquivo para a tabela mapa
+	--Passa o conte√∫do do arquivo para a tabela mapa
 	file = love.filesystem.read("mapa.txt", 10000)
 	index = 1
 	for i = 1,size do
@@ -120,7 +123,7 @@ function love.load()
 	
 end
 
---Funcao chamada a cada perÌodo de tempo
+--Funcao chamada a cada per√≠odo de tempo
 function love.update(dt)
 	tempo = tempo + dt
 	if (tempo > 1/velocidade) and (busca_concluida~=true) then
@@ -131,7 +134,7 @@ function love.update(dt)
 		--Testa se a busca chegou ao fim
 		if nos_x[corrente] ~= vovox or nos_y[corrente] ~= vovoy then
 		
-			--Bota os nÛs vizinhos n„o visitados na lista de nÛs, calculando seus custos
+			--Bota os n√≥s vizinhos n√£o visitados na lista de n√≥s, calculando seus custos
 			--Casa de cima
 			if casa_nunca_vista ( nos_x[corrente],  nos_y[corrente]+1) then
 				table.insert( nos_x, nos_x[corrente])
@@ -169,7 +172,7 @@ function love.update(dt)
 				table.insert( nos_h, h(nos_x[corrente]-1,  nos_y[corrente]))
 			end
 			
-			--Procura o nÛ aberto com menor custo e altera o corrente
+			--Procura o n√≥ aberto com menor custo e altera o corrente
 			nos_visitado[corrente] = true
 			corrente = menor_custo()
 			
@@ -178,7 +181,7 @@ function love.update(dt)
 			
 		else
 		
-			--Faz o "desenho" do caminho encontrado na busca, comeÁando do final e indo de pai em pai
+			--Faz o "desenho" do caminho encontrado na busca, come√ßando do final e indo de pai em pai
 			i = corrente
 			while i ~= 1 do
 				if mapa[nos_x[i]][nos_y[i]] == "D" then
@@ -197,7 +200,7 @@ function love.update(dt)
 	end
 end
 
---FunÁ„o de desenha do LOVE
+--Fun√ß√£o de desenha do LOVE
 function love.draw()
 
 	--Escreve o custo da casa
