@@ -84,7 +84,9 @@ end
 function love.load()
 
 	--Ajusta a tela
-	love.window.setMode( sprites_size*size + 200, sprites_size*size)
+	love.window.setMode( sprites_size*size + 300, sprites_size*size)
+	
+	love.window.setTitle("Chapeuzinho Vermelho")
 
 	doces.combinardocesinicial()
 
@@ -230,15 +232,15 @@ function love.draw()
 		love.graphics.print("Custo nas clareiras = " .. doces.custototal(), sprites_size*size + 10, 70)
 
 		--Escreve a distribuicao de doces
-		love.graphics.print("Distribuicao dos doces:", sprites_size*size + 10, 85)
+		love.graphics.print("Distribuicao dos doces:", sprites_size*size + 10, 100)
 		for i,j in pairs(doces.distrdoces) do
 			if i == 11 then
-				love.graphics.print("Cesta ", sprites_size*size + 10, 100 + 30*(i-1))
+				love.graphics.print("Cesta ", sprites_size*size + 10, 115 + 30*(i-1))
 			else
-				love.graphics.print("Clareira " .. i, sprites_size*size + 10, 100 + 30*(i-1))
+				love.graphics.print("Clareira " .. i, sprites_size*size + 10, 115 + 30*(i-1))
 			end
 			for k,l in ipairs(j) do
-				love.graphics.print(l, sprites_size*size + 10*k, 115 + 30*(i-1))
+				love.graphics.print(l, sprites_size*size + 10*k, 130 + 30*(i-1))
 			end
 
 		end
