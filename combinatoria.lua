@@ -1,8 +1,4 @@
-doces = {}
-local docesclareira={}
-local docesapc={}
-local distrdoces = {}
-local custotot
+local doces = {}
 
 doces.docesapc = {1.1,1.2,1.3,1.4,1.5}
 

@@ -121,7 +121,11 @@ function love.load()
 	galhos_ponto = love.graphics.newImage("resources/galhos_ponto.png")
 	plano_ponto = love.graphics.newImage("resources/plano_ponto.png")
 	clareira_ponto = love.graphics.newImage("resources/clareira_ponto.png")
-
+	
+	--Carrega a música
+	music = love.audio.newSource("resources/music.mp3")
+	music:play()
+	
 	-- Inicializacao do A*
 
 	corrente = 1
@@ -267,6 +271,18 @@ function love.draw()
 			elseif mapa[i][j] == ":" then
 				love.graphics.draw(plano_ponto, sprites_size*(j-1), sprites_size*(i-1))
 			end
+		end
+	end
+end
+
+--Funcao de leitura de teclas pressionadas
+function love.keypressed(key) 
+	 if key == "escape" then
+		local pressedbutton = love.window.showMessageBox("Sair", "Deseja fechar?", {"Sim", "Nao", escapebutton = 2})
+		if pressedbutton == 1 then
+			love.event.push('quit')	
+		elseif pressedbutton == 2 then
+		      -- Nao apertado,fazer nada
 		end
 	end
 end
