@@ -129,8 +129,8 @@ function love.load()
 	plano_ponto = love.graphics.newImage("resources/plano_ponto.png")
 	clareira_ponto = love.graphics.newImage("resources/clareira_ponto.png")
 
-	--Carrega a música
-	music = love.audio.newSource("resources/music.mp3")
+	--Carrega a mÃºsica
+	music = love.audio.newSource("resources/music.mp3","static")
 	music:play()
 
 	-- Inicializacao do A*
